@@ -31,9 +31,14 @@ namespace Shop.Web
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
-
-            //Despues de la conexion a la db, que haga la inyeccion del SeedDb para que lo reconozca
+             //Despues de la conexion a la db, que haga la inyeccion del SeedDb para que lo reconozca
+            //AddTransient tiene un ciclo de vida corto, se usa y se destruye
             services.AddTransient<SeedDb>();
+
+            //Inyectar el repositorio con la interfaz IRepository e implementacion Repository
+            //AddScoped, la inyeccion queda permanente durante toda la ejecucion,
+            //para q sea reusada las veces q sean necesarias
+            services.AddScoped<IRepository, Repository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

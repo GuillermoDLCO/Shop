@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Product
+    public class Product : IEntity
     {
         public int Id { get; set; }
 
@@ -33,6 +33,9 @@
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         //N2, numerico de 2. Aui no se pone simbolo de moneda. Separador de miles y 2 decimales
         public double Stock { get; set; }
+
+        //Se establece relacion con user, uno a varios. Un usuario tiene muchos productos
+        public User User { get; set; }
     }
 
 }

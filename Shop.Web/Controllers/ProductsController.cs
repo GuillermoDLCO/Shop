@@ -121,25 +121,66 @@
                 return NotFound();
             }
 
-            return View(product);
+            var view = this.ToProductViewModel(product);
+            return View(view);
+        }
+
+        private ProductViewModel ToProductViewModel(Product product)
+        {
+            return new ProductViewModel
+            {
+                Id = product.Id,
+                IsAvailabe = product.IsAvailabe,
+                LastPurchase = product.LastPurchase,
+                LastSale = product.LastSale,
+                ImageUrl = product.ImageUrl,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+                User = product.User
+            };
         }
 
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Product product)
+        //Cuando venga la imagen edit por post
+        public async Task<IActionResult> Edit(ProductViewModel view)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //Inicializamos con la imagen q viene de la vista,
+                    //Se uso el hidden for para evitar que venga nulo
+                    var path = view.ImageUrl;
+
+                    if (view.ImageFile != null && view.ImageFile.Length > 0)
+                    {
+                        //Definir la ruta de la imagen 
+                        //se va a concatenar con el nombre del archivo
+                        path = Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                            "wwwroot\\images\\Products",
+                            view.ImageFile.FileName);
+
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            //Se hace la copia del almacenamiento local al servidor
+                            await view.ImageFile.CopyToAsync(stream);
+                        }
+
+                        path = $"~/images/Products/{view.ImageFile.FileName}";
+                    }
+
+                    var product = this.ToProduct(view, path);
                     // TODO: Pending to change to: this.User.Identity.Name
                     product.User = await this.userHelper.GetUserByEmailAsync("guillermo.dlco@outlook.com");
                     await this.productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await this.productRepository.ExistAsync(product.Id))
+                    if (!await this.productRepository.ExistAsync(view.Id))
                     {
                         return NotFound();
                     }
@@ -151,7 +192,7 @@
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(product);
+            return View(view);
         }
 
         // GET: Products/Delete/5

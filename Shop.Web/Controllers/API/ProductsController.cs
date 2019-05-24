@@ -16,7 +16,7 @@
         public IActionResult GetProducts()
         {
             //Va a devolver el resultado envuelto en un json
-            return Ok(this.productRepository.GetAll());
+            return Ok(this.productRepository.GetAllWithUsers());
         }
     }
 }

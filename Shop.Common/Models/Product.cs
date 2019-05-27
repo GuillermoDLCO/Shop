@@ -33,5 +33,11 @@
 
         [JsonProperty("imageFullPath")]
         public object ImageFullPath { get; set; }
+
+        public override string ToString()
+        {
+            //Mostrar el nombre y el precio con 2 caracteres
+            return $"{this.Name} {this.Price:C2}";
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Shop.UIForms.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
+    using Shop.UIForms.Views;
     using System;
     using System.Windows.Input;
     using Xamarin.Forms;
@@ -30,7 +31,7 @@
                 return;
             }
 
-            if(string.IsNullOrEmpty(this.Password))
+            if (string.IsNullOrEmpty(this.Password))
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Error", //Titulo
@@ -47,11 +48,18 @@
                     "Accept");//Boton
                 return;
             }
-            await Application.Current.MainPage.DisplayAlert(
-                    "Ok", //Titulo
-                    "Fuck yeah",//Mensaje
-                    "Accept");//Boton
-            return;
+
+            //await Application.Current.MainPage.DisplayAlert(
+            //        "Ok", //Titulo
+            //        "Fuck yeah",//Mensaje
+            //        "Accept");//Boton
+            //return;
+
+            //Para direccionar a la nueva pagina
+            //Antes de instanciar la page se debe instanciar la viewModel asociada
+            MainViewModel.GetInstance().Products = new ProductsViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new ProductsPage());
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace Shop.UIForms
 {
+    using Shop.UIForms.ViewModels;
     using Shop.UIForms.Views;
     using System;
     using Xamarin.Forms;
@@ -11,6 +12,9 @@
         {
             InitializeComponent();
 
+            //Para direccionar a la nueva pagina
+            //Antes de instanciar la page se debe instanciar la viewModel asociada
+            MainViewModel.GetInstance().Login = new LoginViewModel();
             MainPage = new NavigationPage(new LoginPage());
         }
 

@@ -63,12 +63,17 @@
 
                 if (view.ImageFile != null && view.ImageFile.Length > 0)
                 {
+                    //Para evitar reemplazar la imagen con otra q tiene el mismo nombre
+                    var guid = Guid.NewGuid().ToString();
+                    var file = $"{guid}.jpg";
+
+
                     //Definir la ruta de la imagen 
                     //se va a concatenar con el nombre del archivo
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(), 
                         "wwwroot\\images\\Products", 
-                        view.ImageFile.FileName);
+                        file);
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
@@ -76,7 +81,7 @@
                         await view.ImageFile.CopyToAsync(stream);
                     }
 
-                    path = $"~/images/Products/{view.ImageFile.FileName}";
+                    path = $"~/images/Products/{file}";
                 }
 
                 var product = this.ToProduct(view, path);
@@ -158,12 +163,17 @@
 
                     if (view.ImageFile != null && view.ImageFile.Length > 0)
                     {
+                        //Para evitar reemplazar la imagen con otra q tiene el mismo nombre
+                        var guid = Guid.NewGuid().ToString();
+                        var file = $"{guid}.jpg";
+
+
                         //Definir la ruta de la imagen 
                         //se va a concatenar con el nombre del archivo
                         path = Path.Combine(
                             Directory.GetCurrentDirectory(),
                             "wwwroot\\images\\Products",
-                            view.ImageFile.FileName);
+                            file);
 
                         using (var stream = new FileStream(path, FileMode.Create))
                         {
@@ -171,7 +181,7 @@
                             await view.ImageFile.CopyToAsync(stream);
                         }
 
-                        path = $"~/images/Products/{view.ImageFile.FileName}";
+                        path = $"~/images/Products/{file}";
                     }
 
                     var product = this.ToProduct(view, path);

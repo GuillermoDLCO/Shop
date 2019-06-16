@@ -56,6 +56,16 @@
         {
             return await this.userManager.UpdateAsync(user);
         }
+
+        public async Task<SignInResult> ValidatePasswordAsync(User user, string password)
+        {
+            return await this.signInManager.CheckPasswordSignInAsync(
+                user,
+                password,
+                //Si bloqueamos o no bloqueamos al usuario por contador de intentos, como no hay no se coloca
+                false);
+        }
+
     }
 
 }

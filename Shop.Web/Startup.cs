@@ -11,6 +11,8 @@
     using Data;
     using Data.Entities;
     using Helpers;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
 
     public class Startup
     {
@@ -35,7 +37,21 @@
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
             })
-        .AddEntityFrameworkStores<DataContext>();
+            .AddEntityFrameworkStores<DataContext>();
+
+            //Se va utilizar autenticaciones, cookies y la jwtBearer(Protocolo que se esta utilizando).
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = this.Configuration["Tokens:Issuer"],
+                        ValidAudience = this.Configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
+                    };
+                });
 
 
             //Conexion a la base de datos por el parametro seteado en appsettings.json

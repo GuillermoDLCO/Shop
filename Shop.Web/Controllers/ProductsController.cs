@@ -12,7 +12,6 @@
     using Microsoft.EntityFrameworkCore;
     using Shop.Web.Models;
 
-    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
@@ -25,7 +24,7 @@
             this.userHelper = userHelper;
         }
 
-        // GET: Products
+        // GET: Products - lo podra ver aunque no este logueado
         public IActionResult Index()
         {
             return View(this.productRepository.GetAll().OrderBy(p => p.Name));
@@ -48,7 +47,8 @@
             return View(product);
         }
 
-        // GET: Products/Create
+        // GET: Products/Create - debe estar logueado y ser administrador
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -113,9 +113,10 @@
             };
 
         }
-    
 
-        // GET: Products/Edit/5
+
+        // GET: Products/Edit/5 - debe estar logueado y ser administrador
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -208,7 +209,8 @@
             return View(view);
         }
 
-        // GET: Products/Delete/5
+        // GET: Products/Delete/5 - solo los administradores pueden eliminar
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

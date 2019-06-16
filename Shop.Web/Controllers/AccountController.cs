@@ -1,11 +1,5 @@
 ﻿namespace Shop.Web.Controllers
 {
-    using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
     using Data.Entities;
     using Helpers;
     using Microsoft.AspNetCore.Identity;
@@ -13,6 +7,12 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
     using Models;
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
 
     public class AccountController : Controller
     {
@@ -208,9 +208,9 @@
                     {
                         var claims = new[]
                         {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, System.Guid.NewGuid().ToString())
-                };
+                            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                            new Claim(JwtRegisteredClaimNames.Jti, System.Guid.NewGuid().ToString())
+                        };
                         //Symmetric coge el token key del appsettings.json
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["Tokens:Key"]));
                         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

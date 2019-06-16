@@ -11,7 +11,7 @@
     {
         private readonly DataContext context;
         private readonly IUserHelper userHelper;
-        private Random random;
+        private readonly Random random;
 
         //Se le inyecta la conexion a la base de datos, y el IUserHelper
         //en lugar de userManager
@@ -27,6 +27,11 @@
         {
             //Espera a que la base de datos este creada, en caso q la este creando
             await this.context.Database.EnsureCreatedAsync();
+            
+            //Verifica si existe el rol admin y customer
+            await this.userHelper.CheckRoleAsync("Admin");
+            await this.userHelper.CheckRoleAsync("Customer");
+
 
             //Busca si ya hay un usuario con ese correo
             var user = await this.userHelper.GetUserByEmailAsync("guillermo.dlco@outlook.com");
@@ -46,7 +51,18 @@
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                //Se le asigna al usuario un rol
+                await this.userHelper.AddUserToRoleAsync(user, "Admin");
             }
+            
+            //Si el usuario ya esta creado verificar si tiene rol, sino asignarle
+            var isInRole = await this.userHelper.IsUserInRoleAsync(user, "Admin");
+            if (!isInRole)
+            {
+                await this.userHelper.AddUserToRoleAsync(user, "Admin");
+            }
+
 
             //Si no hay ningun producto los crea
             if (!this.context.Products.Any())

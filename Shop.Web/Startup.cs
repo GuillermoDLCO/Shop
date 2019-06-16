@@ -73,11 +73,20 @@
             //Inyectamos el nuevo repositorio de UserHelper
             services.AddScoped<IUserHelper, UserHelper>();
 
+            //Configura que nuestra aplicacion utiliza cookies
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            //Cuando no hayas logeado y requieras login te iras a la pagina de no autorizado 
+            // y tmb cuando requieras otra accion donde no tengas autorización tmb seras redireccionado
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/NotAuthorized";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
             });
 
 
@@ -97,6 +106,8 @@
                 app.UseHsts();
             }
 
+            //Va a utilizar una pagina error y le pasamos el numero de error
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //La aplicacion requiere autenticacion

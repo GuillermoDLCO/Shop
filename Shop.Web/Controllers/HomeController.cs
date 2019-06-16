@@ -39,5 +39,13 @@ namespace Shop.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //Si le aparece un error 404 va a ejecutar esta accion (vista)
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
     }
 }

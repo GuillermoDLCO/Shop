@@ -103,7 +103,7 @@
             {
                 Id = view.Id,
                 ImageUrl = path,
-                IsAvailabe = view.IsAvailabe,
+                IsAvailable = view.IsAvailable,
                 LastPurchase = view.LastPurchase,
                 LastSale = view.LastSale,
                 Name = view.Name,
@@ -139,7 +139,7 @@
             return new ProductViewModel
             {
                 Id = product.Id,
-                IsAvailabe = product.IsAvailabe,
+                IsAvailable = product.IsAvailable,
                 LastPurchase = product.LastPurchase,
                 LastSale = product.LastSale,
                 ImageUrl = product.ImageUrl,

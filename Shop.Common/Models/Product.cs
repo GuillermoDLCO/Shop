@@ -22,8 +22,8 @@
         [JsonProperty("lastSale")]
         public object LastSale { get; set; }
 
-        [JsonProperty("isAvailabe")]
-        public bool IsAvailabe { get; set; }
+        [JsonProperty("isAvailable")]
+        public bool IsAvailable { get; set; }
 
         [JsonProperty("stock")]
         public long Stock { get; set; }

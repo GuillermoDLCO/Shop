@@ -81,7 +81,7 @@
             {
                 Name = name,
                 Price = this.random.Next(100),
-                IsAvailabe = true,
+                IsAvailable = true,
                 Stock = this.random.Next(100),
                 User = user
             });

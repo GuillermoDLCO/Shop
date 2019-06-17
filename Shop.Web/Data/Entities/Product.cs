@@ -27,8 +27,8 @@
         [Display(Name = "Last Sale")]
         public DateTime? LastSale { get; set; }
 
-        [Display(Name = "Is Availabe?")]
-        public bool IsAvailabe { get; set; }
+        [Display(Name = "Is Available?")]
+        public bool IsAvailable { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         //N2, numerico de 2. Aui no se pone simbolo de moneda. Separador de miles y 2 decimales
